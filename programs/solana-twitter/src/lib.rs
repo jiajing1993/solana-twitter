@@ -39,13 +39,14 @@ pub enum ErrorCode {
 
 #[derive(Accounts)]
 pub struct SendTweet<'info> {
-    #[account(init, payer = author, space = Tweet::Len)]
+    #[account(init, payer = author, space = Tweet::LEN)]
     pub tweet: Account<'info, Tweet>,
 
     #[account(mut)]
     pub author: Signer<'info>,
 
     #[account(address = system_program::ID)]
+    /// CHECK:
     pub system_program: AccountInfo<'info>,
 }
 
