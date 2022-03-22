@@ -1,11 +1,20 @@
 <script setup>
-import { toRefs } from 'vue'
+import { toRefs, computed } from 'vue'
+import { useWorkspace } from '@/composables'
 
 const props = defineProps({
     tweet: Object,
 })
 
 const { tweet } = toRefs(props)
+const { wallet } = useWorkspace()
+const authorRoute = computed(() => {
+    if (wallet.value && wallet.value.publicKey.toBase58() === tweet.value.author.toBase58()) {
+        return { name: 'Profile' }
+    } else {
+        return { name: 'Users', params: { author: tweet.value.author.toBase58() }}
+    }
+})
 </script>
 
 <template>
@@ -13,7 +22,7 @@ const { tweet } = toRefs(props)
         <div>
             <h3 class="inline font-semibold" :title="tweet.author">
                 <!-- TODO: Link to author page or the profile page if it's our own tweet. -->
-                <router-link :to="{ name: 'Home' }" class="hover:underline">
+                <router-link :to="authorRoute" class="hover:underline">
                     {{ tweet.author_display }}
                 </router-link>
             </h3>
