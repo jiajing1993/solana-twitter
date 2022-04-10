@@ -13,7 +13,7 @@ describe("solana-twitter", () => {
   it("can send a new tweet", async () => {
     const tweet = anchor.web3.Keypair.generate();
     await program.rpc.sendTweet(
-      'TOPIC HERE', 'CONTENT HERE',
+      'halo', 'CONTENT HERE',
       {
         accounts: {
           tweet: tweet.publicKey,
@@ -27,7 +27,7 @@ describe("solana-twitter", () => {
     const tweetAccount = await program.account.tweet.fetch(tweet.publicKey);
 
     assert.equal(tweetAccount.author.toBase58(), program.provider.wallet.publicKey.toBase58());
-    assert.equal(tweetAccount.topic, 'TOPIC HERE');
+    assert.equal(tweetAccount.topic, 'halo');
     assert.equal(tweetAccount.content, 'CONTENT HERE');
     assert.ok(tweetAccount.timestamp);
   });
@@ -65,7 +65,7 @@ describe("solana-twitter", () => {
     // Call the "SendTweet" instruction on behalf of this other user.
     const tweet = anchor.web3.Keypair.generate();
     await program.rpc.sendTweet(
-      'TOPIC HERE', 'CONTENT HERE',
+      'halo', 'CONTENT HERE',
       {
         accounts: {
           tweet: tweet.publicKey,
@@ -79,7 +79,7 @@ describe("solana-twitter", () => {
     const tweetAccount = await program.account.tweet.fetch(tweet.publicKey);
 
     assert.equal(tweetAccount.author.toBase58(), otherUser.publicKey.toBase58());
-    assert.equal(tweetAccount.topic, 'TOPIC HERE');
+    assert.equal(tweetAccount.topic, 'halo');
     assert.equal(tweetAccount.content, 'CONTENT HERE');
     assert.ok(tweetAccount.timestamp);
   });
@@ -155,14 +155,14 @@ describe("solana-twitter", () => {
       {
         memcmp: {
           offset: 8 + 32 + 8 + 4,
-          bytes: bs58.encode(Buffer.from('TOPIC HERE'))
+          bytes: bs58.encode(Buffer.from('halo'))
         }
       }
     ])
 
     assert.equal(tweetAccounts.length, 2);
     assert.ok(tweetAccounts.every(tweetAccount => {
-      return tweetAccount.account.topic === 'TOPIC HERE'
+      return tweetAccount.account.topic === 'halo'
     }))
   })
 
