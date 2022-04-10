@@ -16,7 +16,10 @@ export const useWorkspace = () => workspace;
 
 export const initWorkspace = () => {
   const wallet = useAnchorWallet();
-  const connection = new Connection(clusterURL, commitment);
+  const connection = new Connection(
+    'https://api.devnet.solana.com',
+    commitment
+  );
   const provider = computed(
     () =>
       new Provider(connection, wallet.value, {
