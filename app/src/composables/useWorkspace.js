@@ -10,8 +10,6 @@ const commitment = 'processed';
 const programID = new PublicKey(idl.metadata.address);
 let workspace = null;
 
-const clusterURL = process.env.VUE_APP_CLUSTER_URL;
-
 export const useWorkspace = () => workspace;
 
 export const initWorkspace = () => {
